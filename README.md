@@ -33,7 +33,7 @@
 
 ### 修改密码
 
-![image](https://github.com/1azyday/flask_bbs/blob/master/README/user/%E7%AD%BE%E5%90%8D.gif)
+![image](https://github.com/1azyday/flask_bbs/blob/master/README/user/%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81.gif)
 
 ## 论坛功能演示
 
