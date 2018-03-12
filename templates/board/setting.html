@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% extends "topic/base.html" %}
+{% block title %}
+板块设置
+{% endblock %}
+{% block main %}
+
+<div id="content">
+  <div class="panel">
+    <div class="header">
+      <ul class="breadcrumb">
+        <li><a href="/topic">主页</a><span class="divider">/</span></li>
+        <li class="active">板块设置</li>
+      </ul>
+    </div>
+    <div class="inner">
+		<ul>
+			{% for b in bs %}
+			<li>
+				<a href="/topic?board_id={{ b.id }}" class="span-info">
+					{{ b.name }}
+				</a>
+				<a href="/board/delete?board_id={{ b.id }}">  删除 </a>
+			</li>
+			{% endfor %}
+		</ul>
+	    <form class="form-horizontal" method="post" action="/board/add">
+        <div class="control-group">
+            <label class="control-label">新板块名</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="name">
+            </div>
+        </div>
+        <div class="form-actions">
+            <input type="submit" class="span-primary" value="提交">
+        </div>
+		</form>
+
+	
+</div>
+{% endblock %}

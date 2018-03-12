@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/lib/editor/editor.css">
+    <link rel="stylesheet" href="/static/lib/webuploader/webuploader.css">
+    <script src="/static/lib/jquery-3.0.0.min.js"></script>
+    <script src="/static/lib/markdownit.js"></script>
+    <script src="/static/lib/webuploader/webuploader.withoutimage.js"></script>
+    <script src="/static/lib/editor/editor.js"></script>
+    <script src="/static/lib/editor/ext.js"></script>
+	
+</head>
+<body>
+<div class='navbar'>
+  <div class='navbar-inner'>
+    <div class='container'>
+	<ul class='nav pull-left'>
+	  <li><a href='/topic'>首页</a></li>
+	</ul>	
+		<ul class='nav pull-right'>
+		
+			{% if u %}
+			<li>
+				<a href='/setting'>用户设置</a>
+			</li>
+			<li>
+				<a href='/logout/confirm' data-method="post" rel="nofollow">退出</a>
+			</li>
+			{% else %}
+			<li>
+				<a href='/login' data-method="post" rel="nofollow">登录</a>
+			</li>
+			<li>
+				<a href='/register' data-method="post" rel="nofollow">注册</a>
+			</li>				
+			{% endif %}
+		</ul>
+		<a class="btn btn-navbar" id="responsive-sidebar-trigger">
+		</a>
+    </div>
+  </div>
+</div>
+<div id="main">
+	<div id="sidebar">
+		<div class="panel">
+			<div class="header">
+				<span class="col_fade">个人信息</span>
+			</div>
+			{% if u %}
+			<div class="inner">
+				<div class="user_card">
+					<div>
+						<a class="user_avatar">
+							<img src="{{ u.user_image }}" >
+						</a>
+						<span class="user_name"><a class="dark">{{ u.username }}</a></span>
+						<div class="board clearfix">
+								<span class="signature">
+								"
+										{{u.signature}}
+								"
+								</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% else %}
+			<div class="inner">
+					  <p>您尚未登录</p>
+						您可以
+						<a href="/login">
+						  <span class="span-info">
+							登录
+						  </span>
+						</a>
+						或者
+						 <a href="/register">
+						  <span class="span-info">
+							注册
+						  </span>
+						</a>
+			</div>
+			{% endif %}
+		</div>
+
+		<div class="panel">
+			<div class="inner">
+				<a href="/topic/new" class="create_topic_btn">
+					<span class="span-success">发布话题</span>
+				</a>
+			</div>
+		</div>
+	</div>
+	{% block main %}{% endblock %}
+</div>
+
+</html>

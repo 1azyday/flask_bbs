@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="/static/css/detail.min.css" media="all">
+<script src="//cdn.bootcss.com/marked/0.3.6/marked.min.js"></script>
+{% extends "topic/base.html" %}
+{% block title %}
+帖子详情
+{% endblock %}
+{% block main %}
+    <div id="content">
+        <div class='panel'>
+            <div class='header topic_header'>
+        <span class="topic_full_title">
+			{{ topic.title}}
+      	</span>
+            <div class="changes">
+				<span>
+					发布于 {{ topic.passed_time() }} 秒前
+				</span>
+				<span>
+					{% set topic_u = topic.user() %}
+					作者
+					<a href="{{ url_for('index.user_detail', id=topic_u.id) }}">
+						{{ topic_u.username }}
+					</a>
+				</span>
+				<span>
+					{{ topic.views }} 次浏览
+				</span>
+				<span>
+						{{ topic.board_name() }}
+            </span>
+            </div>
+			{% if topic.user_id == u.id %}
+				<a href={{ url_for('topic.delete',token=token, topic_id=topic.id) }}><span class="span-info">删贴</span></a>
+			{% else %}
+			{% endif %}
+            </div>
+
+            <div class='inner topic'>
+                <div class='topic_content'>
+                    <div class="markdown-text">{{ topic.content }}</div>
+                </div>
+            </div>
+        </div>
+		<div class='panel'>
+			<div class='header'>
+				<span class='col_fade'>
+					<!-- 过滤器 -->
+					{{ topic.replies() | count }} 回复
+				</span>
+			</div>
+			{% for r in topic.replies() %}
+			{% set reply_u = r.user() %}	
+			<div class='inner topic'>
+				<div class='cell reply_area reply_item'>
+					<div class='author_content'>
+						<a href="{{ url_for('index.user_detail', id=reply_u.id) }}" class="user_avatar">
+							<img src="{{ reply_u.user_image }}"title="{{ reply_u.username }}"/>
+						</a>
+						<div class='user_info'>
+							<a class='dark reply_author' href="{{ url_for('index.user_detail', id=reply_u.id) }}">
+								{{ reply_u.username }}
+							</a>
+							<a class="reply_time">
+								{{ loop.index }}楼 / {{ loop.length }}楼 •
+								<span class="gua-time" data-ct="{{ r.ct }}"></span>
+							</a>
+						</div>
+					</div>
+					<div class='reply_content from-leiwei1991'>
+						<div class="markdown-text">{{ r.content|safe}}</div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}	
+		</div>
+
+
+		<div class="panel">
+			<div class='header'>
+				<span class='col_fade'>
+					添加回复
+				</span>
+			</div>		
+			<div class="inner reply">
+				<form id="" method="post" action="{{ url_for('reply.add') }}">
+					<input name='topic_id' type='hidden' value= {{ topic.id }} ></input>
+					<div class='markdown_editor in_editor'>
+						<div class='markdown_in_editor'>
+							<textarea class='editor' name='content' rows='20'placeholder='请输入回复'></textarea>
+							<div class='editor_buttons'>
+								<input type="submit" class='span-primary submit_btn' data-loading-text="回复中"	value="回复">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+    <script>
+        var e = function (sel) {
+            return document.querySelector(sel)
+        }
+
+        var es = function (sel) {
+            return document.querySelectorAll(sel)
+        }
+
+        var markContents = function () {
+            var contentDivs = es('.markdown-text')
+            for (var i = 0; i < contentDivs.length; i++) {
+                var contentDiv = contentDivs[i]
+                console.log('pre marked', contentDiv.textContent, contentDiv.innerHTML)
+                var content = marked(contentDiv.textContent)
+                console.log('after marked', content)
+                contentDiv.innerHTML = content
+            }
+        }
+
+        var highlight = function () {
+            var code_list = es('pre code')
+            for (var i = 0; i < code_list.length; i++) {
+                var code = code_list[i]
+                code.className = code.className.replace('lang', 'language')
+            }
+        }
+
+        var registerTimer = function () {
+            setInterval(function () {
+                var times = es('.gua-time')
+                for (var i = 0; i < times.length; i++) {
+                    var t = times[i]
+                    var time = Number(t.dataset.ct)
+                    var now = Math.floor(new Date() / 1000)
+                    var delta = now - time
+                    var s = `${delta} 秒前`
+                    t.innerText = s
+                }
+            }, 1000)
+        }
+
+        var __main = function () {
+            markContents()
+            registerTimer()
+            highlight()
+        }
+
+        __main()
+	// 编辑器相关
+		$('textarea.editor').each(function(){
+		var editor = new Editor({
+		status: []
+		});
+		var $el = $(this);
+
+		editor.render(this);
+		//绑定editor
+		$(this).data('editor', editor);
+
+		var $input = $(editor.codemirror.display.input);
+		$input.keydown(function(event){
+		if (event.keyCode === 13 && (event.ctrlKey || event.metaKey)) {
+		  event.preventDefault();
+		  $el.closest('form').submit();
+		}
+		});
+
+		// at.js 配置
+		var codeMirrorGoLineUp = CodeMirror.commands.goLineUp;
+		var codeMirrorGoLineDown = CodeMirror.commands.goLineDown;
+		var codeMirrorNewlineAndIndent = CodeMirror.commands.newlineAndIndent;
+		$input.atwho({
+		at: '@',
+		data: allNames
+		})
+		.on('shown.atwho', function () {
+		CodeMirror.commands.goLineUp = _.noop;
+		CodeMirror.commands.goLineDown = _.noop;
+		CodeMirror.commands.newlineAndIndent = _.noop;
+		})
+		.on('hidden.atwho', function () {
+		CodeMirror.commands.goLineUp = codeMirrorGoLineUp;
+		CodeMirror.commands.goLineDown = codeMirrorGoLineDown;
+		CodeMirror.commands.newlineAndIndent = codeMirrorNewlineAndIndent;
+		});
+		// END at.js 配置
+
+		});
+    // END 编辑器相关
+    </script>
+{% endblock %}
+

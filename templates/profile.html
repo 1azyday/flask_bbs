@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% extends "topic/base.html" %}
+{% block title %}
+用户信息
+{% endblock %}
+{% block main %}
+<div id="content">
+  <div class="panel">
+    <div class="header">
+      <ul class="breadcrumb">
+        <li><a href="/topic">主页</a><span class="divider">/</span></li>
+		<li class="active">用户信息</li>
+      </ul>
+    </div>
+    <div class="inner userinfo">
+      <div class="user_big_avatar">
+        <img src="{{ target_u.user_image }}" class="user_avatar" title="{{ target_u.name }}">
+      </div>
+      <a class="dark">{{ target_u.username }}</a>
+								<span class="signature">
+								"
+										{{target_u.signature}}
+								"
+								</span>
+      <div class="user_profile">
+        <ul class="unstyled">
+        </ul>
+      </div>
+      <p class="col_fade">注册时间 {{ target_u.td }} 秒前</p>
+    </div>
+  </div>
+
+<div class="panel">
+    <div class="header">
+      <span class="col_fade">最近创建的话题</span>
+</div>
+{% for topic in created_topics %}
+	<div class="cell">
+	  <a class="user_avatar pull-left"">
+		<img src="{{ target_u.user_image }}"   title="{{ target_u.name }}">
+	  </a>
+		
+	  <span class="reply_count pull-left">
+		<span class="count_of_replies" title="回复数">
+			{{ topic.reply_count }}
+		</span>
+		<span class="count_seperator">/</span>
+		<span class="count_of_visits" title="点击数">
+			{{ topic.views }}
+		</span>
+	  </span>
+
+		<span class="last_time pull-right">
+		  <span class="last_active_time">{{ topic.td }} 秒前</span>
+		</span>
+	  <div class="topic_title_wrapper">
+		<a class="topic_title" href="/topic/{{ topic.id }}" title="{{ topic.title }}">
+		  {{ topic.title }}
+		</a>
+	  </div>
+	</div>
+{% endfor %}
+
+  <div class="panel">
+    <div class="header">
+      <span class="col_fade">最近参与的话题</span>
+    </div>
+    
+{% for topic in joined_topics %}
+<div class="cell">
+  <a class="user_avatar pull-left">
+    <img src="{{ target_u.user_image }}" title="{{ target_u.name }}">
+  </a>
+
+  <span class="reply_count pull-left">
+    <span class="count_of_replies" title="回复数">
+		{{ topic.reply_count }}
+    </span>
+    <span class="count_seperator">/</span>
+    <span class="count_of_visits" title="点击数">
+		{{ topic.views }}
+    </span>
+  </span>
+  <a class="last_time pull-right">
+    <span class="last_active_time">{{ topic.td }} 秒前</span>
+  </a>
+  <div class="topic_title_wrapper">
+
+    <a class="topic_title" href="/topic/{{ topic.id }}" title="{{ topic.title }}">
+      {{ topic.title }}
+    </a>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
+</body></html>
