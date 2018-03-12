@@ -3,7 +3,7 @@
 * Flask框架，MVC架构，使用Flask内置的Jinja引擎渲染模板。
 * 数据使用MongoDB存储，实现ORM。部分临时数据（token），使用Redis存储，提高效率。
 * 实现论坛基本功能（注册登录、头像签名、发帖回复、用户信息等功能）
-* 发帖、回复支持Markdwon格式。
+* 发帖、回复支持Markdwon格式，可帖子板块进行筛选分类。
 * 实现权限控制：编辑、删除仅该用户可操作；发帖回复、用户设置等功能要求用户登录。
 * 用户信息查看该用户发帖、回复情况。
 * 注意用户安全，用户密码加盐hash再进行存储。
@@ -12,34 +12,47 @@
 * vagrant配合visualbox，保持开发环境、测试环境与部署环境的一致性，实现Shell脚本一键部署。
 * Gunicorn启动应用，实现负载均衡；supervisor监视应用运行情况；Nginx反向代理，处理静态文件请求。
 
-- ### 注册与登录
 
-    ![image](https://github.com/blinkd/Flask_blog/blob/master/readme/register.gif)
+## 用户功能演示
 
-- ### 个人图像上传
+### 注册登录
 
-    ![image](https://github.com/blinkd/Flask_blog/blob/master/readme/upload.gif)
+![image](https://github.com/1azyday/flask_bbs/blob/master/README/user/%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C.gif)
 
+### 退出登录
 
+![image](https://github.com/1azyday/flask_bbs/blob/master/README/user/%E9%80%80%E5%87%BA.gif)
 
-- ### blog 发布，板块的分类
-     - 博客详情页中包括**发布时间，作者，博客的板块来源，浏览次数**
-     - 博客书写支持**Markdown**格式
-     - 博客主页可以根据不同**板块**进行筛选分类
-     - 博客主页列表包括博客**浏览数**与**评论数**
+### 用户头像
 
-    ![image](https://github.com/blinkd/Flask_blog/blob/master/readme/blog.gif)
+![image](https://github.com/1azyday/flask_bbs/blob/master/README/user/%E5%A4%B4%E5%83%8F.gif)
 
-- ### 个人主页设置
-    - 个人签名设置
-    - 重置密码
-    - 更新头像
+### 用户签名
 
-    ![image](https://github.com/blinkd/Flask_blog/blob/master/readme/profile.gif)
+![image](https://github.com/1azyday/flask_bbs/blob/master/README/user/%E7%AD%BE%E5%90%8D.gif)
 
+### 修改密码
 
-- ### 评论与个人主页
-    - 支持Markdown格式
-    - 显示楼层，发布时间，个人头像连接跳转
-    - 个人主页的博客与评论列表根据**时间倒序排列**显示
-    ![image](https://github.com/blinkd/Flask_blog/blob/master/readme/profile.gif)
+![image](https://github.com/1azyday/flask_bbs/blob/master/README/user/%E7%AD%BE%E5%90%8D.gif)
+
+## 论坛功能演示
+
+### 发帖
+
+![image](https://github.com/1azyday/flask_bbs/blob/master/README/topic/%E5%8F%91%E8%B4%B4.gif)
+
+### 回复
+
+![image](https://github.com/1azyday/flask_bbs/blob/master/README/topic/%E5%9B%9E%E5%A4%8D.gif)
+
+### 删帖
+
+![image](https://github.com/1azyday/flask_bbs/blob/master/README/topic/%E5%88%A0%E5%B8%96.gif)
+
+### 版面选择
+
+![image](https://github.com/1azyday/flask_bbs/blob/master/README/topic/%E7%89%88%E9%9D%A2.gif)
+
+### 发帖、回复情况
+
+![image](https://github.com/1azyday/flask_bbs/blob/master/README/topic/%E7%94%A8%E6%88%B7%E5%8F%91%E8%B4%B4.gif)
