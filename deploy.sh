@@ -1,3 +1,4 @@
+sudo su
 
 # 手动
 # git clone
@@ -29,6 +30,6 @@ sudo service supervisor start
 sudo redis-server &
 
 # service supervisor status
-# ls /var/log/supervisor/supervisord.log
+# ls /var/log/supervisor/
 
 sudo echo 'deploy success'

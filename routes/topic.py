@@ -15,6 +15,9 @@ from routes import (
 
 from models.topic import Topic
 from models.board import Board
+
+from models.visitor import Visitor
+
 main = Blueprint('topic', __name__)
 
 
@@ -40,16 +43,16 @@ def detail(id):
 
 @main.route("/add", methods=["POST"])
 @csrf_token_required
-@login_required
 def add():
     form = request.form
     u = current_user()
+    if u is None:
+        u = Visitor.singleton()
     t = Topic.new(form, user_id=u.id)
     return redirect(url_for('.detail', id=t.id))
 
 
 @main.route("/new")
-@login_required
 def new():
     login_required(add)
     bs = Board.all()
@@ -58,7 +61,6 @@ def new():
 
 @main.route("/delete")
 @csrf_token_required
-@login_required
 def delete():
     topic_id = request.args.get('topic_id')
     Topic.delete(topic_id)

@@ -1,7 +1,7 @@
 import time
 from models import Model
 from models.user import User
-
+from models.visitor import Visitor
 
 class Reply(Model):
     @classmethod
@@ -17,5 +17,8 @@ class Reply(Model):
 
 
     def user(self):
-        u = User.find(self.user_id)
+        if self.user_id == '0':
+            u = Visitor.singleton()
+        else:
+            u = User.find(self.user_id)
         return u

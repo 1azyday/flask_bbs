@@ -5,13 +5,16 @@ echo 'start setup.sh'
 source_root='/var/flask_bbs'
 
 
+sudo su
+
 # 换成中科大的源
-# sudo ln -f -s ${source_root}/misc/sources.list /etc/apt/sources.list
-# sudo mkdir -p /var/.pip
-# sudo ln -f -s ${source_root}/misc/pip.conf /var/.pip/pip.conf
+sudo ln -f -s ${source_root}/misc/sources.list /etc/apt/sources.list
+sudo mkdir -p /var/.pip
+sudo ln -f -s ${source_root}/misc/pip.conf /var/.pip/pip.conf
+sudo apt-get update
 
 # 装依赖
-# sudo apt-get update
+
 sudo apt-get install -y git python3 python3-pip
 # 尝试修复问题依赖
 # sudo apt-get -f install 

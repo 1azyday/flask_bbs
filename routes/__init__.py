@@ -50,7 +50,8 @@ def csrf_token_required(func):
         if r.exists(token) and r.get(token) == u.id:
             r.delete(token)
             return func(*args, **kwargs)
-
+        elif u == None:
+            return func(*args, **kwargs)
         else:
             return abort(401)
     return wrap

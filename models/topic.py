@@ -3,7 +3,7 @@ from models import Model
 from models.user import User
 from models.reply import Reply
 from models.board import Board
-
+from models.visitor import Visitor
 
 class Topic(Model):
     @classmethod
@@ -26,7 +26,10 @@ class Topic(Model):
         return m
 
     def user(self):
-        u = User.find(self.user_id)
+        if self.user_id == '0':
+            u = Visitor.singleton()
+        else:
+            u = User.find(self.user_id)
         return u
 
     def replies(self):
@@ -54,7 +57,7 @@ class Topic(Model):
 
         for r in rs:
             t = Topic.find(r.topic_id)
-            if t :
+            if t:
                 if t.id not in t_ids:
                     ts.append(t)
                     t_ids.append(t.id)

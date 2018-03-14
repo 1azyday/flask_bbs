@@ -19,9 +19,13 @@
 				<span>
 					{% set topic_u = topic.user() %}
 					作者
-					<a href="{{ url_for('index.user_detail', id=topic_u.id) }}">
-						{{ topic_u.username }}
-					</a>
+						{% if not topic_u == None %}
+						<a href="{{ url_for('index.user_detail', id=topic_u.id) }}">
+							{{ topic_u.username }}
+						</a>
+						{% else %}
+							游客
+						{% endif %}
 				</span>
 				<span>
 					{{ topic.views }} 次浏览
@@ -50,28 +54,48 @@
 				</span>
 			</div>
 			{% for r in topic.replies() %}
-			{% set reply_u = r.user() %}	
+				{% set reply_u = r.user() %}			
 			<div class='inner topic'>
 				<div class='cell reply_area reply_item'>
 					<div class='author_content'>
+						{% if not reply_u.id == '0' %}
 						<a href="{{ url_for('index.user_detail', id=reply_u.id) }}" class="user_avatar">
 							<img src="{{ reply_u.user_image }}"title="{{ reply_u.username }}"/>
 						</a>
+
 						<div class='user_info'>
-							<a class='dark reply_author' href="{{ url_for('index.user_detail', id=reply_u.id) }}">
+							<a class='dark reply_author' href="{{ url_for('index.user_detail', id=reply_u.id) }}">	
+								{{ reply_u.username }}
+							</a>
+
+
+							<a class="reply_time">
+								{{ loop.index }}楼 / {{ loop.length }}楼 •
+								<span class="gua-time" data-ct="{{ r.ct }}"></span>
+							</a>
+						</div>
+						{% else %}
+						<a class="user_avatar">
+							<img src="{{ reply_u.user_image }}"title="{{ reply_u.username }}"/>
+						</a>
+
+						<div class='user_info'>
+							<a class='dark reply_author' id=reply_u.id) }}">	
 								{{ reply_u.username }}
 							</a>
 							<a class="reply_time">
 								{{ loop.index }}楼 / {{ loop.length }}楼 •
 								<span class="gua-time" data-ct="{{ r.ct }}"></span>
 							</a>
-						</div>
+						</div>						
+						{% endif %}
 					</div>
 					<div class='reply_content from-leiwei1991'>
 						<div class="markdown-text">{{ r.content|safe}}</div>
 					</div>
 				</div>
 			</div>
+
 			{% endfor %}	
 		</div>
 
